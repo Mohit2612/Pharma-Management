@@ -15,6 +15,7 @@ import { formatCurrency } from '../../utils/formatCurrency';
 const productSchema = zod.object({
   title: zod.string().min(1, 'Title is required'),
   brand: zod.string().min(1, 'Brand is required'),
+  manufacturer: zod.string().optional(),
   category: zod.enum(['medicine', 'self-care', 'machine']),
   description: zod.string().min(5, 'Description is required'),
   price: zod.preprocess((val) => parseFloat(val), zod.number().positive('Price must be a positive number')),
@@ -78,6 +79,7 @@ const AdminProducts = () => {
     setEditingProduct(product);
     setValue('title', product.title);
     setValue('brand', product.brand);
+    setValue('manufacturer', product.manufacturer || '');
     setValue('category', product.category);
     setValue('description', product.description);
     setValue('price', product.price);
@@ -88,7 +90,7 @@ const AdminProducts = () => {
   const handleAddClick = () => {
     setEditingProduct(null);
     reset({
-      title: '', brand: '', category: 'medicine', description: '', price: '', stock: ''
+      title: '', brand: '', manufacturer: '', category: 'medicine', description: '', price: '', stock: ''
     });
     setIsModalOpen(true);
   };
@@ -234,6 +236,7 @@ const AdminProducts = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="p-6 overflow-y-auto space-y-4">
               <Input label="Product Title" error={errors.title?.message} {...register('title')} />
               <Input label="Brand" error={errors.brand?.message} {...register('brand')} />
+              <Input label="Manufacturer" error={errors.manufacturer?.message} {...register('manufacturer')} />
               
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-slate-700 mb-1">Category</label>

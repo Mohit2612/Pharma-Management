@@ -17,6 +17,7 @@ const router = express.Router();
 const validateProduct = [
   body('title').trim().notEmpty().withMessage('Title is required'),
   body('brand').trim().notEmpty().withMessage('Brand is required'),
+  body('manufacturer').optional().trim().isLength({ max: 100 }).withMessage('Manufacturer cannot exceed 100 characters'),
   body('category')
     .isIn(['medicine', 'self-care', 'machine'])
     .withMessage('Category must be medicine, self-care, or machine'),

@@ -47,6 +47,11 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    manufacturer: {
+      type: String,
+      trim : true,
+      default: '',
+    },
   },
   {
     timestamps: true,

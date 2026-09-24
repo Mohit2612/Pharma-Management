@@ -66,12 +66,14 @@ export const getProductById = asyncHandler(async (req, res) => {
  * @access  Private/Admin
  */
 export const createProduct = asyncHandler(async (req, res) => {
-  const { title, brand, category, description, tags, stock, price } = req.body;
+  const { title, brand, manufacturer, category, description, tags, stock, price } = req.body;
+  
   const image = req.file ? `/uploads/${req.file.filename}` : '';
 
   const product = await Product.create({
     title,
     brand,
+    manufacturer,
     category,
     description,
     tags: tags || '',
@@ -89,7 +91,7 @@ export const createProduct = asyncHandler(async (req, res) => {
  * @access  Private/Admin
  */
 export const updateProduct = asyncHandler(async (req, res) => {
-  const { title, brand, category, description, tags, stock, price, isActive } = req.body;
+  const { title, brand, manufacturer, category, description, tags, stock, price, isActive } = req.body;
   
   const product = await Product.findById(req.params.id);
   if (!product) {
@@ -98,6 +100,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   product.title = title || product.title;
   product.brand = brand || product.brand;
+  product.manufacturer = manufacturer !== undefined? manufacturer : product.manufacturer;
   product.category = category || product.category;
   product.description = description || product.description;
   product.tags = tags !== undefined ? tags : product.tags;
